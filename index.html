@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <!-- Ensure the site scales automatically to the user's device -->
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Allen Tan You Jie</title>
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700&display=swap" rel="stylesheet" />
+  <style>
+    /* Basic Reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    html, body {
+      width: 100%;
+      height: 100%;
+    }
+    body {
+      font-family: "Montserrat", sans-serif;
+      line-height: 1.6;
+      color: #333;
+      background: #f4f4f4;
+    }
+    /* Navigation */
+    nav {
+      background: rgba(0, 0, 0, 0.7);
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      padding: 20px 5%;
+      transition: all 0.3s ease;
+      z-index: 1000;
+    }
+    .nav-container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      white-space: nowrap; /* Prevent wrapping */
+    }
+    /* Logo on left */
+    .logo {
+      font-size: 1.4rem;
+      font-weight: bold;
+      color: #fff;
+      text-decoration: none;
+      cursor: pointer;
+    }
+    /* Nav Menu on right */
+    .nav-menu {
+      display: flex;
+      flex: 1;
+      justify-content: flex-end;
+      list-style: none;
+      gap: 20px;
+    }
+    .nav-menu li a {
+      color: #fff;
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 1rem;
+      transition: color 0.3s ease;
+    }
+    .nav-menu li a:hover {
+      color: #ff9900;
+    }
+    /* Hamburger Button */
+    .nav-toggle {
+      display: none;
+      background: none;
+      border: none;
+      cursor: pointer;
+      width: 40px;
+      height: 40px;
+      align-self: center;
+    }
+    .nav-toggle .bar {
+      display: block;
+      width: 25px;
+      height: 3px;
+      margin: 6px auto;
+      background: #fff;
+      transition: all 0.3s ease;
+    }
+    /* When scrolling, shrink the nav */
+    nav.scrolled {
+      padding: 10px 5%;
+    }
+    /* Media Query: if screen width is below 1100px, hide full menu and show hamburger */
+    @media (max-width: 1100px) {
+      .nav-menu {
+        display: none;
+        flex-direction: column;
+        width: 100%;
+        background: rgba(0, 0, 0, 0.9);
+        position: absolute;
+        top: 60px;
+        left: 0;
+        padding: 10px 0;
+      }
+      .nav-menu.active {
+        display: flex;
+      }
+      .nav-toggle {
+        display: block;
+      }
+    }
+    /* Header */
+    header {
+      position: relative; /* Needed for the overlay pseudo-element */
+      background: url('HeaderIMGV1_Web.jpg') no-repeat center center/cover;
+      height: 100vh;
+      text-align: center;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      padding: 0 1rem;
+    }
+    /* Dark tint overlay on header */
+    header::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.3); /* Adjust opacity for desired tint */
+      z-index: 1;
+    }
+    /* Ensure header content appears above overlay */
+    header > * {
+      position: relative;
+      z-index: 2;
+    }
+    /* Mobile header image */
+    @media (max-width: 768px) {
+      header {
+        background: url('HeaderIMGV1.jpg') no-repeat center center/cover;
+        height: 80vh;
+      }
+    }
+    header h1 {
+      font-size: 3rem;
+      margin-bottom: 0.5rem;
+      text-shadow: 2px 2px 5px rgba(0,0,0,0.5);
+      animation: fadeInUp 1s ease-out;
+    }
+    header p {
+      font-size: 1.2rem;
+      margin-bottom: 1rem;
+      text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
+      animation: fadeInUp 1s ease-out 0.5s;
+      animation-fill-mode: both;
+    }
+    @keyframes fadeInUp {
+      0% { opacity: 0; transform: translateY(20px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+    /* Sections */
+    section {
+      padding: 3rem 1rem;
+      text-align: left;
+    }
+    .container {
+      max-width: 1100px;
+      margin: auto;
+    }
+    h2 {
+      text-align: left;
+      margin-bottom: 2rem;
+      font-size: 2rem;
+    }
+    /* Gallery */
+    .gallery {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1rem;
+      text-align: center; /* Center media players in gallery */
+    }
+    .gallery-item {
+      background: #fff;
+      padding: 1rem;
+      border-radius: 5px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    /* Featured Items */
+    .featured-item {
+      margin-bottom: 2rem;
+      text-align: center; /* Center media players in featured work */
+    }
+    /* Embed Container */
+    .embed-container {
+      position: relative;
+      padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+      height: 0;
+      overflow: hidden;
+      max-width: 100%;
+      margin: 0 auto 1rem auto;
+    }
+    .embed-container iframe,
+    .embed-container object,
+    .embed-container embed {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+    /* Instagram Wrapper to center embed */
+    .instagram-wrapper {
+      max-width: 540px;
+      width: 100%;
+      margin: 0 auto;
+      display: block;
+    }
+    /* Center Instagram and TikTok embeds */
+    blockquote.instagram-media,
+    blockquote.tiktok-embed {
+      margin: 0 auto !important;
+      display: block !important;
+    }
+    /* Social Links */
+    .social-links {
+      list-style: none;
+      display: flex;
+      gap: 20px;
+      padding: 0;
+      margin: 0;
+    }
+    .social-links li a {
+      text-decoration: none;
+      color: #ff9900;
+      font-weight: bold;
+    }
+    /* Footer */
+    footer {
+      background: #333;
+      color: #fff;
+      text-align: center;
+      padding: 1rem;
+    }
+    /* Adjust header for larger screens */
+    @media screen and (min-width: 1024px) {
+      header {
+        height: 80vh;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation -->
+  <nav id="navbar">
+    <div class="nav-container">
+      <!-- Logo scrolls to top -->
+      <a href="#home" class="logo" id="logo">Allen Tan You Jie</a>
+      <button id="nav-toggle" class="nav-toggle" aria-label="Toggle navigation">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+      </button>
+      <!-- Updated navigation order (removing Portfolio & Find Out More; adding Instagram Profile & YouTube Playlist) -->
+      <ul id="nav-menu" class="nav-menu">
+        <li><a href="#featured-work" class="nav-link">Featured Work</a></li>
+        <li><a href="#social-media-marketing" class="nav-link">Social Media Marketing</a></li>
+        <li><a href="#instagram-profile" class="nav-link">Instagram Profile</a></li>
+        <li><a href="#youtube-playlist" class="nav-link">YouTube Playlist</a></li>
+        <li><a href="#live-events" class="nav-link">Live Events</a></li>
+        <li><a href="#about" class="nav-link">About</a></li>
+        <li><a href="#contact" class="nav-link">Contact</a></li>
+      </ul>
+    </div>
+  </nav>
+  
+  <!-- Header Section -->
+  <header id="home">
+    <h1>Allen Tan You Jie</h1>
+    <p>Social Media Marketer | Photographer | Videographer</p>
+  </header>
+  
+  <!-- Featured Work Section -->
+  <section id="featured-work">
+    <div class="container">
+      <h2>Featured Work</h2>
+      <!-- Featured Instagram Photo Embed -->
+      <div class="featured-item">
+        <h3>Featured Photo</h3>
+        <div class="instagram-wrapper">
+          <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/p/C-Fa0wVya0J/" data-instgrm-version="12" style="background: #FFF; border: 0; margin: 1px; max-width: 540px; min-width: 326px; padding: 0; width: 100%;">
+            <div style="padding: 16px;">Loading Instagram content...</div>
+          </blockquote>
+        </div>
+        <p>
+          Role: Photographer<br>
+          Shoot Type: Product Photoshoot<br>
+          This Instagram post is part of a professional product photoshoot featuring the Cluade Puffer Sling Bag by The Comfort Club (TCC).
+        </p>
+      </div>
+      <!-- Featured Video -->
+      <div class="featured-item">
+        <h3>Featured Video</h3>
+        <div class="embed-container">
+          <iframe src="https://www.youtube.com/embed/WphTPyYrtYo?si=EzrG6v2dVGmrOu-M" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+        <p>
+          Role: Director and DOP<br>
+          Shoot Type: Music Video<br>
+        </p>
+      </div>
+    </div>
+  </section>
+  
+  <!-- Social Media Marketing Section -->
+  <section id="social-media-marketing">
+    <div class="container">
+      <h2>Social Media Marketing</h2>
+      <div class="featured-item">
+        <h3>Organic Marketing</h3>
+        <blockquote class="tiktok-embed" 
+          cite="https://www.tiktok.com/@thecomfortclub.co/video/7447035175504022791" 
+          data-video-id="7447035175504022791" 
+          style="max-width: 605px;min-width: 325px;" > 
+          <section> 
+              <a target="_blank" 
+              title="@thecomfortclub.co" 
+              href="https://www.tiktok.com/@thecomfortclub.co?refer=embed">@thecomfortclub.co</a> I love the mini sling so much I bring it everywhere I go now🤭 
+              <a title="thecomfortclub" target="_blank" href="https://www.tiktok.com/tag/thecomfortclub?refer=embed">#thecomfortclub</a> 
+              <a title="comfortwithin" target="_blank" href="https://www.tiktok.com/tag/comfortwithin?refer=embed">#comfortwithin</a> 
+              <a title="fyp" target="_blank" href="https://www.tiktok.com/tag/fyp?refer=embed">#fyp</a> 
+              <a title="pufferslingbag" target="_blank" href="https://www.tiktok.com/tag/pufferslingbag?refer=embed">#pufferslingbag</a> 
+              <a title="pufferminisling" target="_blank" href="https://www.tiktok.com/tag/pufferminisling?refer=embed">#pufferminisling</a> 
+              <a title="pouch" target="_blank" href="https://www.tiktok.com/tag/pouch?refer=embed">#pouch</a> 
+              <a title="adjustablestrap" target="_blank" href="https://www.tiktok.com/tag/adjustablestrap?refer=embed">#adjustablestrap</a> 
+              <a title="removablestrap" target="_blank" href="https://www.tiktok.com/tag/removablestrap?refer=embed">#removablestrap</a> 
+              <a title="singapore" target="_blank" href="https://www.tiktok.com/tag/singapore?refer=embed">#singapore</a> 
+              <a target="_blank" title="♬ Pretty (Sped Up) - MEYY" href="https://www.tiktok.com/music/Pretty-Sped-Up-7212600172143085570?refer=embed">♬ Pretty (Sped Up) - MEYY</a>
+          </section>
+        </blockquote> 
+        <script async src="https://www.tiktok.com/embed.js"></script>
+        <p>
+          Leveraging TikTok’s dynamic platform, I created authentic, organic content<br>
+          that resonated with audiences and boosted brand visibility.<br>
+          This strategy exemplifies the power of organic marketing in building genuine engagement.
+        </p>
+      </div>
+      <div class="featured-item">
+        <h3>Find out more!</h3>
+        <blockquote class="tiktok-embed" 
+          cite="https://www.tiktok.com/@thecomfortclub.co" 
+          data-unique-id="thecomfortclub.co" 
+          data-embed-type="creator" 
+          style="max-width: 780px; min-width: 288px;">
+          <section> 
+            <a target="_blank" href="https://www.tiktok.com/@thecomfortclub.co?refer=creator_embed">@thecomfortclub.co</a>
+          </section> 
+        </blockquote> 
+        <script async src="https://www.tiktok.com/embed.js"></script>
+        <p>This section highlights my work in social media marketing on TikTok.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Instagram Profile Section -->
+  <section id="instagram-profile">
+    <div class="container">
+      <h2>Instagram Profile</h2>
+      <div class="instagram-wrapper">
+        <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/clickclackkaboom/" data-instgrm-version="12" style="background: #FFF; border: 0; margin: 1px; max-width: 540px; min-width: 326px; padding: 0; width: 100%;">
+          <div style="padding: 16px;">Loading Instagram content...</div>
+        </blockquote>
+      </div>
+    </div>
+  </section>
+
+  <!-- YouTube Playlist Section -->
+  <section id="youtube-playlist">
+    <div class="container">
+      <h2>YouTube Playlist</h2>
+      <div class="embed-container">
+        <!-- Replace YOUR_PLAYLIST_ID with your actual YouTube playlist ID -->
+        <iframe src="https://www.youtube.com/embed/videoseries?si=2C-BjlNI9WeNPfBi&amp;list=PLTocKlx2HOCcW_w8yj6LzyqXRU112JDws" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+      </div>
+      <p>Check out my YouTube playlist to see more of my video work.</p>
+    </div>
+  </section>
+
+ <!-- Below is an updated snippet for your Live Events section. -->
+
+ <section id="live-events" class="py-6">
+    <div class="container">
+      <h2 class="text-2xl font-bold mb-4">Live Events Coverage</h2>
+      <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 1rem;">
+        <!-- Left: Image -->
+        <div style="flex: 1 1 300px;">
+          <!-- Replace 'live-event.jpg' with your actual image file -->
+          <img src="live-event.jpg" alt="Live Event" style="width: 100%; height: auto; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
+        </div>
+        <!-- Right: Description -->
+        <div style="flex: 1 1 300px;">
+          <p>
+            As a dedicated videographer for live events coverage, I specialize in capturing the essence of conferences, seminars, and related gatherings. My goal is to document each event’s most impactful moments, from keynote sessions to attendee interactions.
+          </p>
+          <p style="margin-top: 1rem;">
+            My approach balances technical precision with creative storytelling to ensure each moment is recorded with clarity and purpose. Whether I am streaming live for remote audiences or crafting highlight reels for post-event marketing, I strive to deliver polished visuals that reflect the energy and importance of each occasion.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  
+  
+  <!-- About Section -->
+  <section id="about" style="background: #fff;">
+    <div class="container">
+      <h2>About Me</h2>
+      <p>
+        Hello, I am Allen Tan You Jie, a creative media professional specializing in photography, videography, and social media marketing.<br>
+        I am also a passionate car enthusiast who enjoys discovering the latest innovations in automobile design and performance.<br>
+        I am always eager to learn new skills and embrace modern technology. For example, I built this website with the assistance of ChatGPT despite having very limited knowledge in coding and web design. This experience demonstrates my ability to harness available tools to achieve professional results.
+      </p>
+    </div>
+  </section>
+  
+  <!-- Contact Section -->
+  <section id="contact" style="background: #eee;">
+    <div class="container">
+      <h2>Contact</h2>
+      <p style="text-align: center;">
+        Feel free to reach out via email at <a href="mailto:youjie.business@gmail.com">youjie.business@gmail.com</a>
+      </p>
+    </div>
+  </section>
+  
+  <!-- Footer -->
+  <footer>
+    <p>&copy; 2025 Allen Tan. All Rights Reserved.</p>
+  </footer>
+  
+  <!-- Instagram Embed Script -->
+  <script async defer src="https://www.instagram.com/embed.js"></script>
+  <script>
+    // Hamburger menu toggle (for screens below 1100px)
+    const navToggle = document.getElementById("nav-toggle");
+    const navMenu = document.getElementById("nav-menu");
+    const logo = document.getElementById("logo");
+
+    navToggle.addEventListener("click", function(e) {
+      e.stopPropagation();
+      navMenu.classList.toggle("active");
+    });
+
+    // Hide mobile menu when clicking on a nav link (for screens below 1100px)
+    document.querySelectorAll(".nav-link").forEach(link => {
+      link.addEventListener("click", function() {
+        if (window.innerWidth < 1100) {
+          navMenu.classList.remove("active");
+        }
+      });
+    });
+
+    // Hide mobile menu if clicking outside of it
+    document.addEventListener("click", function(e) {
+      if (window.innerWidth < 1100 && !navMenu.contains(e.target) && !navToggle.contains(e.target)) {
+        navMenu.classList.remove("active");
+      }
+    });
+
+    // Scrolled navigation: add "scrolled" class if user scrolls more than 50px
+    // and hide the navbar when scrolling down and show when scrolling up
+    let lastScrollTop = 0;
+    window.addEventListener("scroll", function() {
+      const nav = document.getElementById("navbar");
+      let st = window.pageYOffset || document.documentElement.scrollTop;
+      if (st > 50) {
+        nav.classList.add("scrolled");
+      } else {
+        nav.classList.remove("scrolled");
+      }
+      // Hide nav when scrolling down, show when scrolling up.
+      if (st > lastScrollTop && st > 100) {
+        // Scrolling down
+        nav.style.top = "-80px"; // Adjust based on nav height
+      } else {
+        // Scrolling up
+        nav.style.top = "0";
+      }
+      lastScrollTop = st <= 0 ? 0 : st;
+    });
+
+    // When clicking the logo, scroll to top and hide mobile menu if open
+    logo.addEventListener("click", function(e) {
+      e.preventDefault();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      if (window.innerWidth < 1100) {
+        navMenu.classList.remove("active");
+      }
+    });
+  </script>
+</body>
+</html>
